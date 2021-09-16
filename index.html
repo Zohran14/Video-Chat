@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="start">Start Recording</button>
+<button id="stop">Stop Recording</button>
+<video id="video" controls></video>
+<script src="https://cdn.jsdelivr.net/npm/recordrtc@5.6.2/RecordRTC.min.js"></script>
+<script src="https://www.webrtc-experiment.com/EBML.js"></script>
+<script>
+    document.getElementById('start').addEventListener('click', () => {
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        }).then(async function(stream) {
+            let recorder = RecordRTC(stream, {
+                type: 'video'
+            });
+            recorder.startRecording();
+
+
+            document.getElementById('stop').onclick = () => { recorder.stopRecording(function() {
+                getSeekableBlob(recorder.getBlob(), function(seekableBlob) {
+                    var file = new File([seekableBlob], 'filename.mp4', {          type: 'video/mp4'      });
+
+                    video.src = URL.createObjectURL(file);
+                    recorder.stream.stop();
+                    recorder.destroy();
+                    recorder = null;
+                    invokeSaveAsDialog(seekableBlob, 'seekable-recordrtc.mp4');
+                });
+            })};
+        });
+        /*navigator.mediaDevices.getDisplayMedia({ video: true })
+            .then((screen) => {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then((audio) => {
+                        const stream = new MediaStream([screen.getTracks()[0], audio.getTracks()[0]]);
+                        let recordedChunks = [];
+                        const media = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+
+                        media.ondataavailable = async (e) => {
+                            if (e.data.size > 0) {
+                                // @ts-ignore
+                                recordedChunks.push(e.data);
+                            }
+                        }
+                        media.start();
+                        document.getElementById('stop').onclick = () => {
+                            screen.getTracks().forEach(track => track.stop());
+                            audio.getTracks().forEach(track => track.stop());
+                            media.stop();
+                        }
+                        media.onstop = () => {
+                            const a = document.createElement('a');
+                            a.href = URL.createObjectURL(new Blob(recordedChunks, { 'type' : 'video/mp4' }));
+                            document.getElementById('video').src = URL.createObjectURL(new Blob(recordedChunks, { 'type' : 'video/mp4' }));
+                            document.getElementById('video').duration =
+                            document.getElementById('video').play();
+                            a.download = 'test.mp4'
+                            a.click()
+                        }
+                    })
+            })*/
+    })
+</script>
+</body>
+</html>
