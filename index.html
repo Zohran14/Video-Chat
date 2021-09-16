@@ -15,24 +15,27 @@
         navigator.mediaDevices.getUserMedia({
             video: true,
             audio: true
-        }).then(async function(stream) {
-            let recorder = RecordRTC(stream, {
-                type: 'video'
-            });
-            recorder.startRecording();
-
-
-            document.getElementById('stop').onclick = () => { recorder.stopRecording(function() {
-                getSeekableBlob(recorder.getBlob(), function(seekableBlob) {
-                    var file = new File([seekableBlob], 'filename.mp4', {          type: 'video/mp4'      });
-
-                    video.src = URL.createObjectURL(file);
-                    recorder.stream.stop();
-                    recorder.destroy();
-                    recorder = null;
-                    invokeSaveAsDialog(seekableBlob, 'seekable-recordrtc.mp4');
+        }).then(async function(stream1) {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(async function(stream2) {
+                let stream = new MediaStream([...stream2.getTracks(), ...stream1.getTracks()])
+                let recorder = RecordRTC(stream, {
+                    type: 'video'
                 });
-            })};
+                recorder.startRecording();
+
+
+                document.getElementById('stop').onclick = () => { recorder.stopRecording(function() {
+                    getSeekableBlob(recorder.getBlob(), function(seekableBlob) {
+                        var file = new File([seekableBlob], 'filename.mp4', {          type: 'video/mp4'      });
+
+                        video.src = URL.createObjectURL(file);
+                        recorder.stream.stop();
+                        recorder.destroy();
+                        recorder = null;
+                        invokeSaveAsDialog(seekableBlob, 'seekable-recordrtc.mp4');
+                    });
+                })};
+            })
         });
         /*navigator.mediaDevices.getDisplayMedia({ video: true })
             .then((screen) => {
