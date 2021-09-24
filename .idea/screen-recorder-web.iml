@@ -12,5 +12,12 @@
     <orderEntry type="library" name="EBML" level="application" />
     <orderEntry type="library" name="recordrtc" level="application" />
     <orderEntry type="library" name="EBML" level="application" />
+    <orderEntry type="library" name="video-stream-merger" level="application" />
+    <orderEntry type="library" name="EBML" level="application" />
+    <orderEntry type="library" name="recordrtc" level="application" />
+    <orderEntry type="library" name="video" level="application" />
+    <orderEntry type="library" name="video.js" level="application" />
+    <orderEntry type="library" name="recordrtc" level="application" />
+    <orderEntry type="library" name="videojs-vjsdownload" level="application" />
   </component>
 </module>
