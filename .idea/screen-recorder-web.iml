@@ -19,5 +19,6 @@
     <orderEntry type="library" name="video.js" level="application" />
     <orderEntry type="library" name="recordrtc" level="application" />
     <orderEntry type="library" name="videojs-vjsdownload" level="application" />
+    <orderEntry type="library" name="peerjs" level="application" />
   </component>
 </module>
