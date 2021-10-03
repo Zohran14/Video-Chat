@@ -8,7 +8,7 @@ navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(async funct
     video.addEventListener('loadedmetadata', () => {
         video.play()
     })
-        socket.emit('id', {id: ROOM_ID, pid: peer.id});
+    socket.emit('id', {id: ROOM_ID, pid: peer.id});
     socket.on('id', (id) => {
         const call = peer.call(id, camera);
         call.on('stream', (stream) => {
