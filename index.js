@@ -25,6 +25,9 @@ io.on('connection', socket => {
         const userId = data['pid'];
         socket.join(roomId)
         socket.to(roomId).emit('id', userId);
+        socket.on('disconnect', () => {
+            socket.to(roomId).emit('disconnection', userId);
+        })
     });
 })
 server.listen(3000, () => {
