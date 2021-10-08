@@ -1,0 +1,18 @@
+FROM node:14.17.5 as build
+ENV E_PORT=80
+ENV EXPRESS_ENVIRONMENT=development
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+WORKDIR /home/node/app
+COPY ./package*.json ./
+# COPY ./tsconfig*.json ./
+# COPY ./jest-e2e.json ./
+# COPY ./nest-cli.json ./
+# RUN npm install -g @nestjs/cli@latest
+USER node
+RUN npm install
+COPY --chown=node:node src ./src
+# RUN npm run build
+# COPY --chown=node:node *.sh ./
+# RUN chmod +x ./*.sh
+
+CMD [ "npm", "run", "start" ]

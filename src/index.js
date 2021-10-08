@@ -7,8 +7,12 @@ const server = http.createServer(app);
 const {Server} = require('socket.io');
 const io = new Server(server);
 const { v4: uuidV4 } = require('uuid');
+const dotenv = require('dotenv');
+dotenv.config({path: path.join(__dirname, '..', '.env')});
 
+const port = process.env.E_PORT;
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
@@ -30,6 +34,6 @@ io.on('connection', socket => {
         })
     });
 })
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(port, () => {
+    console.log('Zohran video chat listening on *:' + port);
 });
