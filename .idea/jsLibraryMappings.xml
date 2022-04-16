@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{peerjs, recordrtc, video, video.js, videojs-vjsdownload}" />
+    <file url="PROJECT" libraries="{blurt, bootalert, jquery-3.2.1.slim, jquery-3.6.0, jquery-ui, peerjs, recordrtc, require, uuid, video, video.js, videojs-vjsdownload}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

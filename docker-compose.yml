@@ -5,13 +5,11 @@ services:
     build:
       context: ""
       dockerfile: Dockerfile
-      args:
-        - E_PORT=80
     container_name: video-chat
     restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "3000:80"
+      - "3003:81"
     volumes:
       - ./.env:/home/node/app/.env

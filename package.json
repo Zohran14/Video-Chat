@@ -2,7 +2,8 @@
   "name": "screen-recorder-web",
   "version": "1.0.0",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "docker:start": "nodemon"
   },
   "dependencies": {
     "dotenv": "^10.0.0",

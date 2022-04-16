@@ -3,21 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Screen Recorder</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
     <style>
         video {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
+            margin-right: 15px;
+        }
+        h3 {
+            font-weight: normal;
+        }
+        #ul {
+            word-wrap: break-word;
+        }
+        #chat {
+            resize: vertical;
+        }
+        .modal-body {
+            height: 200px !important;
+            overflow-y: scroll !important;
+        }
+        .modal-content {
+            height: 500px !important;
         }
     </style>
     <script>
-        const ROOM_ID = "<%= roomId %>"
+        const ROOM_ID = "<%= roomId %>";
     </script>
     <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 <body>
-<video id="video"></video>
+<button type="button" id="chat2" class="btn btn-primary col-3" data-toggle="modal" data-target="#exampleModal">
+    Chat
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chat box</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ul">
+            </div>
+            <div class="modal-footer">
+                <textarea class="form-control" id="chat" placeholder="Type your message here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="screen-share" class="btn btn-primary col-3">Screen Share</button>
+<button id="mute" class="btn btn-primary col-3">Mute audio</button>
+<button id="mute2" class="btn btn-primary col-3">Stop camera</button>
+<hr>
 </body>
 </html>
