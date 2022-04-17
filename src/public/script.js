@@ -10,7 +10,7 @@ navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(async funct
 })
 
 const sendStream = (camera, peer) => {
-        appendVideo(camera, peer.id);
+        appendVideo(camera, peer.id, true);
         function muteMic(myStream) {
             myStream.getAudioTracks().forEach(track => track.enabled = !track.enabled);
         }
@@ -42,7 +42,7 @@ const sendStream = (camera, peer) => {
         socket.on('id', (id) => {
             const call = peer.call(id, camera);
             call.on('stream', (stream) => {
-                appendVideo(stream, call.peer);
+                appendVideo(stream, call.peer, false);
             });
         });
         socket.on('disconnection', userId => {
@@ -52,18 +52,21 @@ const sendStream = (camera, peer) => {
         peer.on('call', call => {
             call.answer(camera);
             call.on('stream', (stream) => {
-                appendVideo(stream, call.peer);
+                appendVideo(stream, call.peer, false);
             })
         });
         peer.on('close', () => {
             peer.destroy();
         })
 }
-const appendVideo = (userVideoStream, id) => {
+const appendVideo = (userVideoStream, id, muted) => {
     if (!(nono.indexOf(userVideoStream.id) > -1)) {
         nono.push(userVideoStream.id);
         const video = document.createElement('video');
         video.srcObject = userVideoStream;
+        if (muted) {
+            video.muted = true;
+        }
         if ($(`#${id}`).length > 0) {
             document.body.appendChild(video);
             video.className = `screen ${id} col-lg-6`;
