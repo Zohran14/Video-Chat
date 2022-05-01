@@ -1,3 +1,38 @@
+/**
+ * Sets a CSS style on the selected element(s) with !important priority.
+ * This supports camelCased CSS style property names and calling with an object 
+ * like the jQuery `css()` method. 
+ * Unlike jQuery's css() this does NOT work as a getter.
+ * 
+ * @param {string|Object<string, string>} name
+ * @param {string|undefined} value
+ */   
+ jQuery.fn.cssImportant = function(name, value) {
+    const $this = this;
+    const applyStyles = (n, v) => {
+      // Convert style name from camelCase to dashed-case.
+      const dashedName = n.replace(/(.)([A-Z])(.)/g, (str, m1, upper, m2) => {
+        return m1 + "-" + upper.toLowerCase() + m2;
+      }); 
+      // Loop over each element in the selector and set the styles.
+      $this.each(function(){
+        this.style.setProperty(dashedName, v, 'important');
+      });
+    };
+    // If called with the first parameter that is an object,
+    // Loop over the entries in the object and apply those styles. 
+    if(jQuery.isPlainObject(name)){
+      for(const [n, v] of Object.entries(name)){
+         applyStyles(n, v);
+      }
+    } else {
+      // Otherwise called with style name and value.
+      applyStyles(name, value);
+    }
+    // This is required for making jQuery plugin calls chainable.
+    return $this;
+  };
+
 const peer = new Peer();
 const socket = io('/', { transports: ['websocket'] });
 let nono = [];
@@ -62,20 +97,23 @@ const sendStream = (camera, peer) => {
 const appendVideo = (userVideoStream, id, muted) => {
     if (!(nono.indexOf(userVideoStream.id) > -1)) {
         nono.push(userVideoStream.id);
+        const div = document.createElement('div');
         const video = document.createElement('video');
         video.srcObject = userVideoStream;
+        div.className = 'video-class';
+        div.appendChild(video);
         if (muted) {
             video.muted = true;
         }
         if ($(`#${id}`).length > 0) {
-            document.body.appendChild(video);
             video.className = `screen ${id} col-lg-6`;
+            document.body.appendChild(div);
             console.log("hi2");
             return;
         }
         video.id = id;
         video.play();
-        document.body.appendChild(video);
+        document.body.appendChild(div);
     }
 }
 document.getElementById("ul").width = document.getElementById("chat").width;
@@ -85,10 +123,25 @@ document.getElementById("chat").addEventListener('keyup', (e) => {
         send();
     }
 })
-$(".modal-dialog").draggable();
-$('.modal-dialog').resizable({
+$(function () {
+    $(".modal-dialog").draggable();
+    $('.modal-dialog').resizable({
 
-});
+    });
+    var checkExist = setInterval(function() {
+        if ($(".video-class").length) {
+            Array.from(document.querySelectorAll('.video-class')).forEach(el => {
+                console.log(el);
+                $(el).resizable({
+                    alsoResize: `#${el.children[0].id}`
+                });
+                $(".video-class").draggable()
+            })
+        }
+     }, 100);
+})
+
+
 function send() {
     if (document.getElementById("chat").value !== '\n') {
         socket.emit("chat", ROOM_ID, document.getElementById("chat").value.replaceAll(/\r?\n/g, '<br />'));
