@@ -5,7 +5,12 @@ let screen = [];
 let audio_mute = false;
 let cam_mute = false;
 let screen_share = false;
-navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(async function(camera) {
+navigator.mediaDevices.getUserMedia({
+    video: {
+        width: { min: 1024, ideal: 1280, max: 1920 },
+        height: { min: 576, ideal: 720, max: 1080 }
+    }
+, audio: true}).then(async function(camera) {
     sendStream(camera, peer);
 })
 
@@ -106,7 +111,6 @@ $(function () {
      }, 100);
 })
 
-
 function send() {
     if (document.getElementById("chat").value !== '\n') {
         socket.emit("chat", ROOM_ID, document.getElementById("chat").value.replaceAll(/\r?\n/g, '<br />'));
@@ -125,7 +129,9 @@ document.getElementById("screen-share").addEventListener("click", () => {
     if (!screen_share) {
         screen_share = true;
         document.getElementById("screen-share").textContent = "Stop Share";
-        navigator.mediaDevices.getDisplayMedia({video: true, audio: true}).then(async (stream) => {
+        navigator.mediaDevices.getDisplayMedia({
+            video: true
+        , audio: true}).then(async (stream) => {
             const peer2 = new Peer(uuid.v4());
             console.log(typeof peer2, Object.keys(peer2), peer2["_id"]);
             screen.push(peer2);
