@@ -1,0 +1,12 @@
+t=2023-03-22T17:49:29-0500 lvl=info msg="no configuration paths supplied"
+t=2023-03-22T17:49:29-0500 lvl=info msg="using configuration at default config path" path=C:\\Users\\zohra/.ngrok2/ngrok.yml
+t=2023-03-22T17:49:29-0500 lvl=info msg="open config file" path=C:\\Users\\zohra\\.ngrok2\\ngrok.yml err=nil
+t=2023-03-22T17:49:29-0500 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040
+t=2023-03-22T17:49:29-0500 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2023-03-22T17:49:29-0500 lvl=info msg="client session established" obj=csess id=8082557b9532
+t=2023-03-22T17:49:29-0500 lvl=info msg="started tunnel" obj=tunnels name="command_line (http)" addr=http://localhost:3002 url=http://683b-173-66-22-82.ngrok.io
+t=2023-03-22T17:49:29-0500 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:3002 url=https://683b-173-66-22-82.ngrok.io
+t=2023-03-22T17:50:21-0500 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2023-03-22T17:50:21-0500 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2023-03-22T17:50:21-0500 lvl=info msg="accept failed" obj=csess id=8082557b9532 err="reconnecting session closed"
+Terminate batch job (Y/N)? 

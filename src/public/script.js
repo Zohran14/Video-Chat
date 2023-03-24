@@ -47,16 +47,17 @@ const sendStream = (camera, peer) => {
         socket.on('id', (id) => {
             const call = peer.call(id, camera);
             call.on('stream', (stream) => {
+                console.log(stream)
                 appendVideo(stream, call.peer, false);
             });
         });
         socket.on('disconnection', userId => {
-            console.log(userId);
             document.getElementById(userId).remove();
         })
         peer.on('call', call => {
             call.answer(camera);
             call.on('stream', (stream) => {
+                console.log(stream);
                 appendVideo(stream, call.peer, false);
             })
         });
@@ -70,19 +71,20 @@ const appendVideo = (userVideoStream, id, muted) => {
         const div = document.createElement('div');
         const video = document.createElement('video');
         video.srcObject = userVideoStream;
-        div.className = 'video-class';
+        div.setAttribute("class", 'video-class');
         div.appendChild(video);
         if (muted) {
-            video.muted = true;
+            video.setAttribute("muted", true);
         }
         if ($(`#${id}`).length > 0) {
-            video.className = `screen ${id} col-lg-6`;
+            video.setAttribute("class", `screen ${id} col-lg-6`);
             document.body.appendChild(div);
-            console.log("hi2");
             return;
         }
-        video.id = id;
-        video.play();
+        video.setAttribute("id", id);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
         document.body.appendChild(div);
     }
 }
@@ -101,7 +103,6 @@ $(function () {
     var checkExist = setInterval(function() {
         if ($(".video-class").length) {
             Array.from(document.querySelectorAll('.video-class')).forEach(el => {
-                console.log(el);
                 $(el).resizable({
                     alsoResize: `#${el.children[0].id}`
                 });
