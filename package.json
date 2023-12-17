@@ -15,7 +15,7 @@
     "uuid": "^8.3.2"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=16.0.0"
   },
   "devDependencies": {
     "peer": "^0.6.1"
