@@ -8,7 +8,6 @@ COPY ./package*.json ./
 # COPY ./tsconfig*.json ./
 # COPY ./jest-e2e.json ./
 # COPY ./nest-cli.json ./
-# RUN npm install -g @nestjs/cli@latest
 USER node
 RUN npm install yarn
 RUN yarn install
